@@ -79,28 +79,67 @@ function fetchWrite(url){
       }
     }
     animiateValue("neva",0,ctr,3000);
-    ctr = 0;
     //Now for Metadata
-    var complete = 0;
-    var incomplete = 0;
-    var empty = 0;
-    var ownershipMD = ["Data Owner","Data Steward","Data Source System","UDOT Division or Team"];
-    var accuracyMD = ["Update Interval","Update Method","Update Description","Data Timeframe","Spatial Coverage","Data Processing Summary"];
-    //for(var i = 0; i < j.length; i++) {
-      var uid = j[0]["u_id"];
-      fetch("https://dashboard.udot.utah.gov/api/views/metadata/v1/cqny-q9v6").then(function(response){
-        return response.json();
-      }).then(function(data){
-        console.log(data.customFields.Ownership[ownershipMD[0]]);
-      });
-  //  }
+    //First Incomplete, or at least one empty
+    for(var i = 0; i < j.length; i++) {
+      mdComplete(j[i]["u_id"]);
+    }
+    var object = document.getElementById("none");
+    ctr = Number(object.getAttribute("data-x"));
+    //animiateValue('none',0,ctr,3000);
 
-    var sample = j[0]["last_update_date_data"];
-    console.log(sample);
-    console.log(dateCheck(sample,1));
-    console.log("end");
+    console.log(ctr);
 
 	});
+}
+//function to fetch Datasets
+async function fetchJSON(url){
+  let response = await fetch(url);
+  let data = await response.json();
+  return data;
+}
+//Function to check metadata completeness
+function mdComplete(uid){
+  var flag = 0;
+  //Define Meatadata fields
+  var ownershipMD = ["Data Owner","Data Steward","Data Source System","UDOT Division or Team"];
+  var accuracyMD = ["Update Interval","Update Method","Update Description","Data Timeframe","Spatial Coverage","Data Processing Summary"];
+  //fetch the dataset json
+  fetch("https://dashboard.udot.utah.gov/api/views/metadata/v1/"+uid).then(function(response){
+    return response.json();
+  }).then(function(data){
+    //iterate checking each metadata field
+    var object = '';
+    var value = '';
+    var flag = 0;
+    if(data.customFields === null){
+      object = document.getElementById('none');
+      value = Number(object.getAttribute("data-x"));
+      value += 1;
+      object.setAttribute("data-x",value)
+    }
+    for(var i = 0; i < ownershipMD.length;i++){
+      if(data.customFields["Ownership"][ownershipMD[i]] === undefined){
+        flag += 1;
+      }
+    }
+    for(var i = 0; i < accuracyMD.length;i++){
+      if(data.customFields["Accuracy & Consistency"][accuracyMD[i]] === undefined){
+        flag += 1;
+      }
+    }
+    if(flag == ((ownershipMD.length + 1)+(accuracyMD.length + 1))){
+      object = document.getElementById('docu');
+      value = Number(object.getAttribute("data-x"));
+      value += 1;
+      object.setAttribute("data-x",value)
+    } else {
+      object = document.getElementById('incom');
+      value = Number(object.getAttribute("data-x"));
+      value += 1;
+      object.setAttribute("data-x",value)
+    }
+  });
 }
 //Function checks if date falls in date range
 function dateCheck(str,interval){
