@@ -41,40 +41,66 @@
 
 //Function to get data and write results to document objects
 function fetchWrite(url){
-	fetch(url).then(function(response) { 
+	fetch(url).then(function(response) {
 	// Convert to JSON
 	return response.json();
 	}).then(function(j) {
-		animiateValue("datasets",0,j.length,2000);
-		var sample = j[0]["last_update_date_data"];
-		console.log(sample);
-		console.log(dateCheck(sample,1));
+		animiateValue("datasets",0,j.length,3000);
 		var ud;
 		var ctr = 0;
 		//Write sets updated yesterday
-		for(var i = 0; i < j.length; i++) {	
-			ud = dateParse(j[i]["last_update_date_data"]);
-			if(yesterday === ud){
-				ctr += 1;
-			}
-		}
+    for(var i = 0; i < j.length; i++) {
+      if(dateCheck(j[i]["last_update_date_data"],2)){
+        ctr += 1;
+      }
+    }
 		animiateValue("yesterday",0,ctr,3000);
+    //reset counter
+    ctr = 0;
+    for(var i = 0; i < j.length; i++) {
+      if(dateCheck(j[i]["last_update_date_data"],7)){
+        ctr += 1;
+      }
+    }
+    animiateValue("week",0,ctr,3000);
+    //reset counter
+    ctr = 0;
+    for(var i = 0; i < j.length; i++) {
+      if(dateCheck(j[i]["last_update_date_data"],30)){
+        ctr += 1;
+      }
+    }
+    animiateValue("month",0,ctr,3000);
+    // Now Write number that has not been Updated, of course first reset crt
+    crt = 0;
+    for(var i = 0; i < j.length; i++) {
+      if(j[i]["last_update_date_data"] === j[i]["creation_date"] ){
+        ctr += 1;
+      }
+    }
+    animiateValue("neva",0,ctr,3000);
+    ctr = 0;
+    //Now for Metadata
+    var complete = 0;
+    var incomplete = 0;
+    var empty = 0;
+    var ownershipMD = ["Data Owner","Data Steward","Data Source System","UDOT Division or Team"];
+    var accuracyMD = ["Update Interval","Update Method","Update Description","Data Timeframe","Spatial Coverage","Data Processing Summary"];
+    //for(var i = 0; i < j.length; i++) {
+      var uid = j[0]["u_id"];
+      fetch("https://dashboard.udot.utah.gov/api/views/metadata/v1/cqny-q9v6").then(function(response){
+        return response.json();
+      }).then(function(data){
+        console.log(data.customFields.Ownership[ownershipMD[0]]);
+      });
+  //  }
+
+    var sample = j[0]["last_update_date_data"];
+    console.log(sample);
+    console.log(dateCheck(sample,1));
+    console.log("end");
+
 	});
-}
-//Function parses date into strings
-function dateParse(str){
-	if(str === null || str === undefined){
-		var date = new Date();
-		date.setDate(date.getDate()-1);
-	} else{
-		var date = new Date(str);
-	}
-	var today,month,day,year;
-	month = date.getMonth()+1;
-	day = date.getDate();
-	year = date.getFullYear();
-	today = month+'/'+day+'/'+year;
-	return today;
 }
 //Function checks if date falls in date range
 function dateCheck(str,interval){
@@ -83,12 +109,12 @@ function dateCheck(str,interval){
 	//function return true of false
 	var today = new Date();
 	today.setHours(0,0,0);
-	today.setDate(date.getDate()-interval);
+	today.setDate(today.getDate()-interval);
 	var date = new Date(str);
 	if(date >= today) {
-		return true;
+    return true;
 	}else{
-		return false;
+    return false;
 	}
 }
 // Function to animate counter and write into document
