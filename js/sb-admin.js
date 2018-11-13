@@ -74,29 +74,16 @@ function fetchWrite(url){
     // Now Write number that has not been Updated, of course first reset crt
     crt = 0;
     for(var i = 0; i < j.length; i++) {
-      if(j[i]["last_update_date_data"] === j[i]["creation_date"] ){
+      if(j[i]["last_update_date_data"] === j[i]["creation_date"]){
         ctr += 1;
       }
     }
     animiateValue("neva",0,ctr,3000);
     //Now for Metadata
-    //First Incomplete, or at least one empty
     for(var i = 0; i < j.length; i++) {
       mdComplete(j[i]["u_id"]);
     }
-    var object = document.getElementById("none");
-    ctr = Number(object.getAttribute("data-x"));
-    //animiateValue('none',0,ctr,3000);
-
-    console.log(ctr);
-
 	});
-}
-//function to fetch Datasets
-async function fetchJSON(url){
-  let response = await fetch(url);
-  let data = await response.json();
-  return data;
 }
 //Function to check metadata completeness
 function mdComplete(uid){
@@ -114,31 +101,32 @@ function mdComplete(uid){
     var flag = 0;
     if(data.customFields === null){
       object = document.getElementById('none');
-      value = Number(object.getAttribute("data-x"));
+      value = Number(object.innerHTML);
       value += 1;
-      object.setAttribute("data-x",value)
+      object.innerHTML = value;
     }
     for(var i = 0; i < ownershipMD.length;i++){
-      if(data.customFields["Ownership"][ownershipMD[i]] === undefined){
+      if(data.customFields["Ownership"][ownershipMD[i]] != undefined){
         flag += 1;
       }
     }
     for(var i = 0; i < accuracyMD.length;i++){
-      if(data.customFields["Accuracy & Consistency"][accuracyMD[i]] === undefined){
+      if(data.customFields["Accuracy & Consistency"][accuracyMD[i]] != undefined){
         flag += 1;
       }
     }
-    if(flag == ((ownershipMD.length + 1)+(accuracyMD.length + 1))){
+    if(flag == ((ownershipMD.length)+(accuracyMD.length))){
       object = document.getElementById('docu');
-      value = Number(object.getAttribute("data-x"));
+      value = Number(object.innerHTML);
       value += 1;
-      object.setAttribute("data-x",value)
+      object.innerHTML = value;
     } else {
       object = document.getElementById('incom');
-      value = Number(object.getAttribute("data-x"));
+      value = Number(object.innerHTML);
       value += 1;
-      object.setAttribute("data-x",value)
+      object.innerHTML = value;
     }
+
   });
 }
 //Function checks if date falls in date range

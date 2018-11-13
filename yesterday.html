@@ -26,7 +26,7 @@
     <div id="wrapper">
       <!-- Sidebar -->
       <ul class="sidebar navbar-nav">
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="index.html">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span>
@@ -38,7 +38,7 @@
             <span>Datasets</span>
           </a>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item active">
           <a class="nav-link" href="yesterday.html">
             <i class="fas fa-fw fa-coffee"></i>
             <span>Yesterday</span></a>
@@ -74,111 +74,20 @@
             <span>No Metadata</span></a>
         </li>
       </ul>
-
       <div id="content-wrapper">
-
         <div class="container-fluid">
-
           <!-- Breadcrumbs-->
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="#">Dashboard</a>
+              <a href="index.html">Dashboard</a>
             </li>
-            <li class="breadcrumb-item active">Overview</li>
+            <li class="breadcrumb-item active">Updated Yesterday</li>
           </ol>
-
-			<!-- Icon Cards row 1-->
-			<div class="row text-center">
-				<div class="col">
-					<div class="counter">
-					<i class="fa fa-database fa-2x"></i>
-					<h2 class="timer count-title count-number"><span id="datasets"></span></h2>
-					<p class="count-text ">Total Datasets</p>
-					</div>
-				</div>
-				<div class="col">
-					<div class="counter">
-					<i class="fa fa-coffee fa-2x"></i>
-					<h2 class="timer count-title count-number"><span id="yesterday"></span></h2>
-					<p class="count-text ">Updated Yesterday</p>
-					</div>
-				</div>
-				<div class="col">
-					<div class="counter">
-					<i class="fa fa-clock fa-2x"></i>
-					<h2 class="timer count-title count-number"><span id="week"></span></h2>
-					<p class="count-text ">Updated this Week</p>
-					</div>
-				</div>
-				<div class="col">
-					<div class="counter">
-					<i class="fa fa-bug fa-2x"></i>
-					<h2 class="timer count-title count-number"><span id="month"></span></h2>
-					<p class="count-text ">Updated this Month</p>
-					</div>
-				</div>
-			</div>
-			<!-- Icon Cards Row 2 -->
-			<div class="row text-center">
-				<div class="col">
-					<div class="counter">
-					<i class="fa fa-meh-rolling-eyes fa-2x"></i>
-					<h2 class="timer count-title count-number"><span id="neva"></span></h2>
-					<p class="count-text ">Never Updated</p>
-					</div>
-				</div>
-				<div class="col">
-					<div class="counter">
-					<i class="fa fa-smile fa-2x"></i>
-					<h2 class="timer count-title count-number"><span id="docu" data-x="0">0</span></h2>
-					<p class="count-text ">Fully Documented</p>
-					</div>
-				</div>
-				<div class="col">
-					<div class="counter">
-					<i class="fa fa-grin-beam-sweat fa-2x"></i>
-					<h2 class="timer count-title count-number"><span id="incom">0</span></h2>
-					<p class="count-text ">Incomplete Metadata</p>
-					</div>
-				</div>
-				<div class="col">
-					<div class="counter">
-					<i class="fa fa-angry fa-2x"></i>
-					<h2 class="timer count-title count-number"><span id="none" data-x="0">0</span></h2>
-					<p class="count-text ">No Metadata</p>
-					</div>
-				</div>
-			</div>
-          <!-- Area Chart Example-->
-      <div class="row text-center">
-        <div class="col">
-          <div class="card mb-3">
-            <div class="card-header">
-              <i class="fas fa-chart-area"></i>
-              Timeline of Dataset Creation for 2018</div>
-            <div class="card-body">
-              <canvas id="myAreaChart" width="50%" height="30"></canvas>
-            </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card mb-3">
-            <div class="card-header">
-              <i class="fas fa-chart-area"></i>
-              Dataset Categories (Documented Only)</div>
-            <div class="card-body">
-              <canvas id="myPieChart" width="50%" height="30"></canvas>
-            </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-          </div>
-        </div>
-      </div>
-          <!-- DataTables Example -->
+          <!-- DataTables -->
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-table"></i>
-              Datasets with more than 100 visits</div>
+              Datasets Update between Yesterday and Today</div>
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -203,17 +112,14 @@
                     </tr>
                   </tfoot>
                   <tbody id="dataTableAppend">
-
                   </tbody>
                 </table>
               </div>
             </div>
             <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
           </div>
-
         </div>
         <!-- /.container-fluid -->
-
         <!-- Sticky Footer -->
         <footer class="sticky-footer">
           <div class="container my-auto">
@@ -233,26 +139,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -271,14 +157,12 @@
 
     <!-- Demo scripts for this page-->
     <script src="js/demo/datatables-demo.js"></script>
-    <script src="js/demo/chart-area-demo.js"></script>
 	<!--Call up a function -->
 	<script>
    var domainUrl = "https://dashboard.udot.utah.gov/resource/eqzg-rhke.json";
-		var query = "?$where=type=%22dataset%22%20and%20publication_stage=%22published%22";
-		fetchWrite(domainUrl+query);
-    query = "?$select=name,visits,downloads,owner,creation_date,last_update_date_data,dataset_link&$where=type=%22dataset%22%20and%20publication_stage=%22published%22&$order=visits%20desc";
-    tabbleAppend('dataTableAppend',domainUrl+query);
+    var query = "?$select=name,visits,downloads,owner,creation_date,last_update_date_data,dataset_link";
+    query += "&$where=type=%22dataset%22%20and%20publication_stage=%22published%22&$order=visits%20desc";
+    tabbleAppendYesterday('dataTableAppend',domainUrl+query);
 	</script>
 
   </body>
